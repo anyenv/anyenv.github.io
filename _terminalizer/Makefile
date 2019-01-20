@@ -1,10 +1,10 @@
-%.yml:
+demo/%.yml:
 	cwd=${PWD}
 	cd ~ && \
 	bash -c 'trap "" EXIT; terminalizer record demo -c ${PWD}/config.yml'; \
 	mv demo.yml ${PWD}/$@
 
-%.gif: %.yml
+demo/%.gif: demo/%.yml
 	terminalizer render $< -o $@
 
-install-init: install-init.gif
+install-init: demo/install-init.gif
