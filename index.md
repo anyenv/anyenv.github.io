@@ -1,38 +1,87 @@
-## Welcome to GitHub Pages
+# anyenv - All in one for \*\*env
 
+This is a simple wrapper for [rbenv](https://github.com/sstephenson/rbenv) style environment managers. You don't have to git clone or modify your shell profile for each \*\*env anymore if you install anyenv.
 
-You can use the [editor on GitHub](https://github.com/anyenv/anyenv.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+## Feedback required!
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**This repository is under development.** All feedback are welcome! See https://github.com/anyenv/anyenv/issues
 
-### Markdown
+## Getting started
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Install `anyenv`
 
-```markdown
-Syntax highlighted code block
+#### Homebrew (for macOS user)
+Currently, `anyenv` is not supported by default, but you can use Tap:
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+$ brew tap anyenv/anyenv
+$ brew install anyenv
+$ echo 'eval "$(anyenv init -)"' >> ~/.your_profile
+$ exec $SHELL -l
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+#### Manual git checkout
 
-### Jekyll Themes
+```
+$ git clone https://github.com/anyenv/anyenv ~/.anyenv
+$ echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
+$ echo 'eval "$(anyenv init -)"' >> ~/.your_profile
+$ exec $SHELL -l
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/anyenv/anyenv.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Initialize install manifest directory
 
-### Support or Contact
+If you want, you can initialize install manifest directory with [anyenv/anyenv-install](https://github.com/anyenv/anyenv-install).
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+![anyenv install --init](https://anyenv.github.io/assets/img/demo/install-init.gif)
+
+If you have own manifest repository, you can specify it:
+
+```
+$ anyenv install --init https://github.com/foo/anyenv-install.git
+Manifest directory doesn't exist: /Users/riywo/.config/anyenv/anyenv-install
+Do you want to checkout https://github.com/foo/anyenv-install.git? [y/N]:
+```
+
+## Usage
+
+Install any **env in your manifest directory:
+
+```
+$ anyenv install rbenv
+$ anyenv install pyenv
+$ anyenv install nodenv
+$ exec $SHELL -l
+
+$ rbenv install ...
+$ pyenv install ...
+$ nodenv install ...
+```
+
+Update your manifest directory:
+
+![anyenv install --update](https://anyenv.github.io/assets/img/demo/install-update.gif)
+
+## Configuration
+
+### `ANYENV_DEFINITION_ROOT`
+This is the directory containing install manifests. Manifests should be directly under this directory:
+
+```
+$ tree ~/.config/anyenv/anyenv-install
+/Users/riywo/.config/anyenv/anyenv-install
+├── Renv
+...
+├── scalaenv
+└── swiftenv
+```
+
+If it is not defined by user, it uses fallbacks:
+
+- `${XDG_CONFIG_HOME}/anyenv/anyenv-install` if `${XDG_CONFIG_HOME}` is defined
+- `${HOME}/.config/anyenv/anyenv-install` by default
+
+## Plugins
+
+- [znz/anyenv-update](https://github.com/znz/anyenv-update)
+- [znz/anyenv-git](https://github.com/znz/anyenv-git)
